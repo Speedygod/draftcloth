@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Minimalist Streetwear Co.</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
         /* Base Reset & Styling */
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Helvetica Neue', Arial, sans-serif; }
@@ -13,6 +14,13 @@
         header { background: white; padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 100; }
         .logo { font-weight: 900; letter-spacing: 2px; font-size: 1.5rem; text-transform: uppercase; }
         
+        /* New Social Contact Icons Panel */
+        .header-socials { display: flex; gap: 20px; align-items: center; }
+        .social-icon { color: #111; font-size: 1.3rem; text-decoration: none; transition: transform 0.2s, color 0.2s; display: inline-block; }
+        .social-icon:hover { transform: translateY(-2px); }
+        .social-icon.whatsapp:hover { color: #25D366; }
+        .social-icon.instagram:hover { color: #E1306C; }
+        .social-icon.email:hover { color: #007AHB; }
 
         /* Main Catalog Container */
         .container { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
@@ -57,12 +65,23 @@
 
 <header>
     <div class="logo">ESSENTIALS</div>
+    
+    <div class="header-socials">
+        <a href="https://wa.me/917306115496" target="_blank" class="social-icon whatsapp" title="Chat on WhatsApp">
+            <i class="fa-brands fa-whatsapp"></i>
+        </a>
+        <a href="https://instagram.com/_u/vas.nthx_" target="_blank" class="social-icon instagram" title="Follow on Instagram">
+            <i class="fa-brands fa-instagram"></i>
+        </a>
+        <a href="s9443992@gmail.com?subject=Store%20Inquiry" class="social-icon email" title="Send Email">
+            <i class="fa-regular fa-envelope"></i>
+        </a>
+    </div>
 </header>
 
 <div class="container">
     <h1>New Arrivals</h1>
     <div class="product-grid">
-        <!-- Card 1 -->
         <div class="product-card">
             <div class="product-image">
                 <img src="images2.jfif" alt="Argentina World Cup Jersey">
@@ -74,7 +93,6 @@
             </div>
         </div>
 
-        <!-- Card 2: Updated with your images1.jfif file -->
         <div class="product-card">
             <div class="product-image">
                 <img src="images1.jfif" alt="Argentina Pre-Match Jersey">
@@ -86,114 +104,14 @@
             </div>
         </div>
 
-        <!-- Card 3 -->
         <div class="product-card">
             <div class="product-image">
                 <img src="images3.jfif" alt="Argentina World Cup Jersey Alternate">
             </div>
             <div class="product-info">
-                <div class="product-title"> retro jersey</div>
+                <div class="product-title">retro jersey</div>
                 <div class="product-price">350rs</div>
                 <button class="buy-btn" onclick="openCheckout('jersey - 350rs', 'images3.jfif')">Buy Now</button>
-            </div>
-        </div>
-        <!-- Card 4 -->
-        <div class="product-card">
-            <div class="product-image">
-                <img src="images4.jfif" alt="Argentina World Cup Jersey Alternate">
-            </div>
-            <div class="product-info">
-                <div class="product-title"> outfit jersey</div>
-                <div class="product-price">350rs</div>
-                <button class="buy-btn" onclick="openCheckout('jersey - 350rs', 'images4.jfif')">Buy Now</button>
-            </div>
-        </div>
-         <!-- Card 5 -->
-        <div class="product-card">
-            <div class="product-image">
-                <img src="images5.jfif" alt="Argentina World Cup Jersey Alternate">
-            </div>
-            <div class="product-info">
-                <div class="product-title"> 2006 jersey</div>
-                <div class="product-price">350rs</div>
-                <button class="buy-btn" onclick="openCheckout('jersey - 350rs', 'images5.jfif')">Buy Now</button>
-            </div>
-        </div>
-         <!-- Card 6 -->
-        <div class="product-card">
-            <div class="product-image">
-                <img src="imagesb1.jfif" alt="Argentina World Cup Jersey Alternate">
-            </div>
-            <div class="product-info">
-                <div class="product-title"> brazil jersey</div>
-                <div class="product-price">350rs</div>
-                <button class="buy-btn" onclick="openCheckout('jersey - 350rs', 'imagesb1.jfif')">Buy Now</button>
-            </div>
-        </div>
-        <!-- Card 7 -->
-        <div class="product-card">
-            <div class="product-image">
-                <img src="imagesb2.jfif" alt="Argentina World Cup Jersey Alternate">
-            </div>
-            <div class="product-info">
-                <div class="product-title"> brazil jersey</div>
-                <div class="product-price">350rs</div>
-                <button class="buy-btn" onclick="openCheckout('jersey - 350rs', 'imagesb2.jfif')">Buy Now</button>
-            </div>
-        </div>
-        <!-- Card 8 -->
-        <div class="product-card">
-            <div class="product-image">
-                <img src="imagesb3.jfif" alt="Argentina World Cup Jersey Alternate">
-            </div>
-            <div class="product-info">
-                <div class="product-title"> brazil jersey</div>
-                <div class="product-price">350rs</div>
-                <button class="buy-btn" onclick="openCheckout('jersey - 350rs', 'imagesb3.jfif')">Buy Now</button>
-            </div>
-        </div>
-        <!-- Card 9 -->
-        <div class="product-card">
-            <div class="product-image">
-                <img src="imagesp1.jfif" alt="Argentina World Cup Jersey Alternate">
-            </div>
-            <div class="product-info">
-                <div class="product-title"> portugal jersey</div>
-                <div class="product-price">350rs</div>
-                <button class="buy-btn" onclick="openCheckout('jersey - 350rs', 'imagesp1.jfif')">Buy Now</button>
-            </div>
-        </div>
-        <!-- Card 10 -->
-        <div class="product-card">
-            <div class="product-image">
-                <img src="imagesp2.jfif" alt="Argentina World Cup Jersey Alternate">
-            </div>
-            <div class="product-info">
-                <div class="product-title"> portugal jersey</div>
-                <div class="product-price">350rs</div>
-                <button class="buy-btn" onclick="openCheckout('jersey - 350rs', 'imagesp2.jfif')">Buy Now</button>
-            </div>
-        </div>
-        <!-- Card 11 -->
-        <div class="product-card">
-            <div class="product-image">
-                <img src="imagesg1.jfif" alt="Argentina World Cup Jersey Alternate">
-            </div>
-            <div class="product-info">
-                <div class="product-title"> germany jersey</div>
-                <div class="product-price">350rs</div>
-                <button class="buy-btn" onclick="openCheckout('jersey - 350rs', 'imagesg1.jfif')">Buy Now</button>
-            </div>
-        </div>
-        <!-- Card 12 -->
-        <div class="product-card">
-            <div class="product-image">
-                <img src="imagesg2.jfif" alt="Argentina World Cup Jersey Alternate">
-            </div>
-            <div class="product-info">
-                <div class="product-title"> germany jersey</div>
-                <div class="product-price">350rs</div>
-                <button class="buy-btn" onclick="openCheckout('jersey - 350rs', 'imagesp2.jfif')">Buy Now</button>
             </div>
         </div>
     </div>
