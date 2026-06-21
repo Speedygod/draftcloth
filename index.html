@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minimalist Streetwear Co.</title>
+    <style>
+        /* Base Reset & Styling */
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Helvetica Neue', Arial, sans-serif; }
+        body { background-color: #fafafa; color: #111; padding-bottom: 60px; }
+        
+        /* Header */
+        header { background: white; padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 100; }
+        .logo { font-weight: 900; letter-spacing: 2px; font-size: 1.5rem; text-transform: uppercase; }
+        
+        /* Main Catalog Container */
+        .container { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
+        h1 { text-align: center; margin-bottom: 40px; font-weight: 400; text-transform: uppercase; letter-spacing: 3px; }
+        
+        /* Product Grid */
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+        .product-card { background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.04); transition: transform 0.2s; display: flex; flex-direction: column; justify-content: space-between; }
+        .product-card:hover { transform: translateY(-4px); }
+        
+        /* Image adjustments to contain photos beautifully */
+        .product-image { width: 100%; height: 350px; background-color: #e0e0e0; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .product-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        
+        .product-info { padding: 20px; text-align: center; }
+        .product-title { font-size: 1.1rem; margin-bottom: 8px; font-weight: 600; }
+        .product-price { color: #666; margin-bottom: 15px; font-size: 1rem; }
+        .buy-btn { background: #111; color: white; border: none; padding: 12px 24px; width: 100%; font-size: 0.9rem; font-weight: bold; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: background 0.2s; }
+        .buy-btn:hover { background: #333; }
+
+        /* Checkout Modal Popup */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); justify-content: center; align-items: center; z-index: 1000; }
+        .checkout-container { background: white; width: 90%; max-width: 500px; padding: 30px; border-radius: 8px; position: relative; animation: fadeIn 0.3s ease; }
+        .close-btn { position: absolute; top: 15px; right: 20px; font-size: 1.5rem; cursor: pointer; background: none; border: none; }
+        
+        /* Form elements */
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 6px; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; }
+        input[type="text"], input[type="email"], select, textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 1rem; }
+        
+        /* Flex layout to display item text alongside a mini image preview */
+        .selected-item-box { background: #f0f0f0; padding: 12px; border-radius: 4px; font-weight: bold; margin-bottom: 20px; display: flex; align-items: center; gap: 15px; }
+        .modal-preview-img { width: 50px; height: 50px; border-radius: 4px; overflow: hidden; display: flex; align-items: center; justify-content: center; background: #e0e0e0; flex-shrink: 0; }
+        .modal-preview-img img { width: 100%; height: 100%; object-fit: cover; }
+        
+        .submit-order-btn { width: 100%; background: #000; color: white; border: none; padding: 14px; font-size: 1rem; font-weight: bold; cursor: pointer; text-transform: uppercase; border-radius: 4px; }
+        
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo">ESSENTIALS</div>
+</header>
+
+<div class="container">
+    <h1>New Arrivals</h1>
+    <div class="product-grid">
+        <!-- Card 1 -->
+        <div class="product-card">
+            <div class="product-image">
+                <img src="images2.jfif" alt="Argentina World Cup Jersey">
+            </div>
+            <div class="product-info">
+                <div class="product-title">Argentina World Cup 2022 Jersey</div>
+                <div class="product-price">650.00</div>
+                <button class="buy-btn" onclick="openCheckout('Argentina World Cup 2022 Jersey - 650.00', 'images2.jfif')">Buy Now</button>
+            </div>
+        </div>
+
+        <!-- Card 2: Updated with your images1.jfif file -->
+        <div class="product-card">
+            <div class="product-image">
+                <img src="images1.jfif" alt="Argentina Pre-Match Jersey">
+            </div>
+            <div class="product-info">
+                <div class="product-title">Argentina Pre-Match Jersey</div>
+                <div class="product-price">320rs</div>
+                <button class="buy-btn" onclick="openCheckout('Argentina Pre-Match Jersey - 320rs', 'images1.jfif')">Buy Now</button>
+            </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="product-card">
+            <div class="product-image">
+                <img src="images3.jfif" alt="Argentina World Cup Jersey Alternate">
+            </div>
+            <div class="product-info">
+                <div class="product-title"> retro jersey</div>
+                <div class="product-price">350rs</div>
+                <button class="buy-btn" onclick="openCheckout('jersey - 350rs', 'images3.jfif')">Buy Now</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="checkoutModal">
+    <div class="checkout-container">
+        <button class="close-btn" onclick="closeCheckout()">&times;</button>
+        <h2 style="margin-bottom: 20px; text-align: center;">Complete Your Order</h2>
+        
+        <form action="https://formspree.io/f/xbdvrpjp" method="POST">
+            
+            <label>Item Selection</label>
+            <input type="hidden" id="hiddenProductField" name="Product Ordered">
+            
+            <div class="selected-item-box">
+                <div class="modal-preview-img" id="visibleProductImg"></div>
+                <div id="visibleProductText">Product Name Here</div>
+            </div>
+
+            <div class="form-group">
+                <label for="size">Choose Size</label>
+                <select id="size" name="Size" required>
+                    <option value="S">Small</option>
+                    <option value="M">Medium</option>
+                    <option value="L">Large</option>
+                    <option value="XL">X-Large</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="name">Your Name</label>
+                <input type="text" id="name" name="Customer Name" required placeholder="Alex Smith">
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="Customer Email" required placeholder="alex@example.com">
+            </div>
+
+            <div class="form-group">
+                <label for="address">Shipping Address</label>
+                <textarea id="address" name="Shipping Address" rows="3" required placeholder="Street address, City, Postal Code"></textarea>
+            </div>
+
+            <button type="submit" class="submit-order-btn">Submit Order</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    function openCheckout(productDetails, imageSrc) {
+        document.getElementById('checkoutModal').style.display = 'flex';
+        document.getElementById('visibleProductText').innerText = productDetails;
+        document.getElementById('hiddenProductField').value = productDetails;
+        document.getElementById('visibleProductImg').innerHTML = '<img src="' + imageSrc + '" alt="Preview">';
+    }
+
+    function closeCheckout() {
+        document.getElementById('checkoutModal').style.display = 'none';
+    }
+
+    window.onclick = function(event) {
+        let modal = document.getElementById('checkoutModal');
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>
+
+</body>
+</html>
