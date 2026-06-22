@@ -8,7 +8,7 @@
     <style>
         /* Base Reset & Styling */
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Helvetica Neue', Arial, sans-serif; }
-        body { background-color: #0d131a; color: #ffffff; padding-bottom: 60px; }
+        body { background-color: #0d131a; color: #ffffff; padding-bottom: 60px; overflow-x: hidden; }
         
         /* --- FULL-SCREEN VIDEO BACKDROP --- */
         .video-background-container {
@@ -58,10 +58,8 @@
             top: 0; 
         }
         
-        /* FIXED: Logo visibility rule forced to bright white */
         .logo { font-weight: 900; letter-spacing: 2px; font-size: 1.5rem; text-transform: uppercase; color: #ffffff; }
         
-        /* FIXED: Header Social Media Icons forced to pure white with crisp spacing */
         .header-socials { display: flex; gap: 25px; align-items: center; }
         .social-icon { color: #ffffff; font-size: 1.5rem; text-decoration: none; transition: transform 0.2s, color 0.2s; display: inline-block; }
         .social-icon:hover { transform: translateY(-3px); }
@@ -73,26 +71,51 @@
         .container { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
         h1 { text-align: center; margin-bottom: 30px; font-weight: 400; text-transform: uppercase; letter-spacing: 3px; color: #ffffff; text-shadow: 0 2px 8px rgba(0,0,0,0.6); }
         
-        /* FIXED HIGHLIGHT: Solid highly visible search bar execution */
-        .search-container { max-width: 500px; margin: 0 auto 40px auto; position: relative; z-index: 20; }
-        .search-bar { width: 100%; padding: 15px 20px 15px 50px; border: 1px solid #ffffff; border-radius: 30px; font-size: 1rem; background-color: #ffffff; color: #111111; transition: all 0.3s ease; font-weight: 500; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); }
+        /* Flex Search Layout containing input bar and structural button */
+        .search-container { max-width: 550px; margin: 0 auto 40px auto; display: flex; gap: 10px; z-index: 20; position: relative; }
+        
+        /* REMOVED SEARCH ICON, adjusted padding-left back to normal 20px */
+        .search-bar { flex: 1; padding: 15px 20px; border: 1px solid #ffffff; border-radius: 30px; font-size: 1rem; background-color: #ffffff; color: #111111; transition: all 0.3s ease; font-weight: 500; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); }
         .search-bar:focus { outline: none; box-shadow: 0 4px 25px rgba(255,255,255,0.25); }
         .search-bar::placeholder { color: #666666; }
-        .search-icon { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: #111111; font-size: 1.1rem; z-index: 21; }
+        
+        /* Dedicated Search Execution Button */
+        .search-btn { background: #ffffff; color: #111111; border: none; padding: 0 25px; font-size: 0.9rem; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; border-radius: 30px; cursor: pointer; transition: background 0.2s, transform 0.2s; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); }
+        .search-btn:hover { background: #e2e8f0; transform: translateY(-1px); }
+
+        /* Filter Tags Layout */
+        .category-filters { display: flex; justify-content: center; gap: 12px; margin-bottom: 35px; flex-wrap: wrap; }
+        .filter-btn { background: transparent; color: #ffffff; border: 1px solid rgba(255, 255, 255, 0.4); padding: 8px 20px; border-radius: 20px; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; cursor: pointer; transition: all 0.2s ease; }
+        .filter-btn.active, .filter-btn:hover { background: #ffffff; color: #111111; border-color: #ffffff; }
 
         /* Product Grid - Transparent Layout with pure white borders */
         .product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
-        .product-card { background: transparent; border: 1px solid #ffffff; border-radius: 8px; overflow: hidden; transition: transform 0.2s, box-shadow 0.2s; display: flex; flex-direction: column; justify-content: space-between; }
+        
+        /* FIX: Changed card flex parameters back to display block internally to secure grid dimensions */
+        .product-card { display: block; background: transparent; border: 1px solid #ffffff; border-radius: 8px; overflow: hidden; transition: transform 0.2s, box-shadow 0.2s; position: relative; }
         .product-card:hover { transform: translateY(-5px); box-shadow: 0 5px 20px rgba(255, 255, 255, 0.15); }
         
-        /* Inner Container Image placeholders */
-        .product-image { width: 100%; height: 350px; background-color: rgba(255, 255, 255, 0.05); display: flex; align-items: center; justify-content: center; overflow: hidden; border-bottom: 1px solid rgba(255, 255, 255, 0.2); }
+        /* Inner Container Image wrappers with position relative to track info overlays */
+        .product-image { width: 100%; height: 350px; background-color: rgba(255, 255, 255, 0.05); display: flex; align-items: center; justify-content: center; overflow: hidden; border-bottom: 1px solid rgba(255, 255, 255, 0.2); position: relative; }
         .product-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
         
-        /* FIXED: Clear contrast typography labels */
-        .product-info { padding: 20px; text-align: center; background: rgba(0, 0, 0, 0.2); }
-        .product-title { font-size: 1.1rem; margin-bottom: 8px; font-weight: 600; text-transform: capitalize; color: #ffffff; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
-        .product-price { color: #cbd5e1; margin-bottom: 15px; font-size: 1.05rem; font-weight: 500; letter-spacing: 0.5px; }
+        /* Floating Detail Overlay Info Panel & Prompt Icon */
+        .info-indicator { position: absolute; top: 15px; right: 15px; background: rgba(0, 0, 0, 0.6); color: #fff; border-radius: 50%; width: 32px; height: 32px; display: flex; justify-content: center; align-items: center; font-size: 1.1rem; border: 1px solid rgba(255,255,255,0.4); pointer-events: none; z-index: 5; transition: transform 0.2s; }
+        .product-card:hover .info-indicator { transform: scale(1.1); }
+
+        .product-info-panel { position: absolute; bottom: 0; left: 0; width: 100%; background: rgba(13, 19, 26, 0.95); border-top: 1px solid #ffffff; padding: 20px; color: #ffffff; transform: translateY(101%); transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1); z-index: 4; text-align: left; font-size: 0.9rem; line-height: 1.4; }
+        .product-info-panel h4 { font-size: 1rem; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 4px; }
+        .product-info-panel ul { list-style: none; margin-top: 5px; }
+        .product-info-panel ul li { margin-bottom: 4px; color: #cbd5e1; font-size: 0.85rem; }
+        .product-info-panel ul li i { margin-right: 6px; color: #fff; }
+
+        /* Activating animation slide configuration on desktop hover or active mobile touch click templates */
+        .product-card:hover .product-info-panel, .product-card:active .product-info-panel, .product-card.touch-active .product-info-panel { transform: translateY(0); }
+        
+        /* Typography labels */
+        .product-info { padding: 24px 20px; text-align: center; background: rgba(0, 0, 0, 0.2); position: relative; z-index: 3; }
+        .product-title { font-size: 1.1rem; margin-bottom: 12px; font-weight: 600; text-transform: capitalize; color: #ffffff; text-shadow: 0 2px 4px rgba(0,0,0,0.5); letter-spacing: 0.3px; }
+        .product-price { color: #cbd5e1; margin-bottom: 20px; font-size: 1.05rem; font-weight: 500; letter-spacing: 0.5px; }
         .buy-btn { background: #ffffff; color: #111111; border: none; padding: 12px 24px; width: 100%; font-size: 0.9rem; font-weight: bold; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: background 0.2s; border-radius: 4px; }
         .buy-btn:hover { background: #e2e8f0; }
 
@@ -110,13 +133,16 @@
         .modal-preview-img img { width: 100%; height: 100%; object-fit: cover; }
         
         .submit-order-btn { width: 100%; background: #000000; color: #ffffff; border: none; padding: 14px; font-size: 1rem; font-weight: bold; cursor: pointer; text-transform: uppercase; border-radius: 4px; }
+
+        /* Sticky WhatsApp Floating Button */
+        .whatsapp-float { position: fixed; bottom: 30px; right: 30px; background-color: #25D366; color: white; border-radius: 50%; width: 60px; height: 60px; display: flex; justify-content: center; align-items: center; font-size: 30px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); z-index: 100; text-decoration: none; transition: transform 0.2s ease; }
+        .whatsapp-float:hover { transform: scale(1.1); }
         
         @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
     </style>
 </head>
 <body>
 
-<!-- HTML5 backdrop file container -->
 <div class="video-background-container">
     <video autoplay muted loop playsinline>
         <source src="video2.mp4" type="video/mp4">
@@ -144,131 +170,270 @@
     <h1>New Arrivals</h1>
     
     <div class="search-container">
-        <i class="fa-solid fa-magnifying-glass search-icon"></i>
         <input type="text" id="jerseySearch" class="search-bar" placeholder="Search for country or jersey style... (e.g. Brazil, Retro)" onkeyup="filterJerseys()">
+        <button class="search-btn" onclick="filterJerseys()">Search</button>
+    </div>
+
+    <!-- Category Filter Quick Tags -->
+    <div class="category-filters">
+        <button class="filter-btn active" onclick="filterCategory('all', this)">All</button>
+        <button class="filter-btn" onclick="filterCategory('argentina', this)">Argentina</button>
+        <button class="filter-btn" onclick="filterCategory('brazil', this)">Brazil</button>
+        <button class="filter-btn" onclick="filterCategory('portugal', this)">Portugal</button>
+        <button class="filter-btn" onclick="filterCategory('germany', this)">Germany</button>
+        <button class="filter-btn" onclick="filterCategory('retro', this)">Retro</button>
     </div>
 
     <div class="product-grid">
-        <div class="product-card" data-title="argentina world cup 2022 jersey">
+        <!-- Card 1 -->
+        <div class="product-card" data-title="argentina world cup 2022 jersey" onclick="toggleTouchInfo(this)">
             <div class="product-image">
+                <div class="info-indicator"><i class="fa-solid fa-circle-info"></i></div>
                 <img src="images2.jfif" alt="Argentina World Cup Jersey">
+                <div class="product-info-panel">
+                    <h4>Product Details</h4>
+                    <ul>
+                        <li><i class="fa-solid fa-shirt"></i> Premium Polyester Blend</li>
+                        <li><i class="fa-solid fa-maximize"></i> Fit: Regular Comfort</li>
+                        <li><i class="fa-solid fa-droplet-slash"></i> Machine Cold Wash</li>
+                    </ul>
+                </div>
             </div>
             <div class="product-info">
                 <div class="product-title">Argentina World Cup 2022 Jersey</div>
-                <div class="product-price">650.00</div>
-                <button class="buy-btn" onclick="openCheckout('Argentina World Cup 2022 Jersey - 650.00', 'images2.jfif')">Buy Now</button>
+                <div class="product-price">450.00</div>
+                <button class="buy-btn" onclick="event.stopPropagation(); openCheckout('Argentina World Cup 2022 Jersey - 450.00', 'images2.jfif')">Buy Now</button>
             </div>
         </div>
 
-        <div class="product-card" data-title="argentina pre-match jersey">
+        <!-- Card 2 -->
+        <div class="product-card" data-title="argentina pre-match jersey" onclick="toggleTouchInfo(this)">
             <div class="product-image">
+                <div class="info-indicator"><i class="fa-solid fa-circle-info"></i></div>
                 <img src="images1.jfif" alt="Argentina Pre-Match Jersey">
+                <div class="product-info-panel">
+                    <h4>Product Details</h4>
+                    <ul>
+                        <li><i class="fa-solid fa-shirt"></i> Breathable Aero-Ready Tech</li>
+                        <li><i class="fa-solid fa-maximize"></i> Fit: Slim-Fit Training</li>
+                        <li><i class="fa-solid fa-droplet-slash"></i> Wash Separately</li>
+                    </ul>
+                </div>
             </div>
             <div class="product-info">
                 <div class="product-title">Argentina Pre-Match Jersey</div>
                 <div class="product-price">320rs</div>
-                <button class="buy-btn" onclick="openCheckout('Argentina Pre-Match Jersey - 320rs', 'images1.jfif')">Buy Now</button>
+                <button class="buy-btn" onclick="event.stopPropagation(); openCheckout('Argentina Pre-Match Jersey - 320rs', 'images1.jfif')">Buy Now</button>
             </div>
         </div>
 
-        <div class="product-card" data-title="argentina retro jersey">
+        <!-- Card 3 -->
+        <div class="product-card" data-title="argentina retro jersey" onclick="toggleTouchInfo(this)">
             <div class="product-image">
+                <div class="info-indicator"><i class="fa-solid fa-circle-info"></i></div>
                 <img src="images3.jfif" alt="Argentina World Cup Jersey Alternate">
+                <div class="product-info-panel">
+                    <h4>Product Details</h4>
+                    <ul>
+                        <li><i class="fa-solid fa-shirt"></i> Heavyweight Heritage Cotton</li>
+                        <li><i class="fa-solid fa-maximize"></i> Fit: Boxy Retro Fit</li>
+                        <li><i class="fa-solid fa-droplet-slash"></i> Hand-Wash Recommended</li>
+                    </ul>
+                </div>
             </div>
             <div class="product-info">
                 <div class="product-title">retro jersey</div>
                 <div class="product-price">350rs</div>
-                <button class="buy-btn" onclick="openCheckout('retro jersey - 350rs', 'images3.jfif')">Buy Now</button>
+                <button class="buy-btn" onclick="event.stopPropagation(); openCheckout('retro jersey - 350rs', 'images3.jfif')">Buy Now</button>
             </div>
         </div>
-        <div class="product-card" data-title="argentina outfit jersey">
+
+        <!-- Card 4 -->
+        <div class="product-card" data-title="argentina outfit jersey" onclick="toggleTouchInfo(this)">
             <div class="product-image">
+                <div class="info-indicator"><i class="fa-solid fa-circle-info"></i></div>
                 <img src="images4.jfif" alt="Outfit Jersey">
+                <div class="product-info-panel">
+                    <h4>Product Details</h4>
+                    <ul>
+                        <li><i class="fa-solid fa-shirt"></i> Double-Knit Streetwear Fabric</li>
+                        <li><i class="fa-solid fa-maximize"></i> Fit: Oversized Drop-Shoulder</li>
+                        <li><i class="fa-solid fa-droplet-slash"></i> Low Tumble Dry</li>
+                    </ul>
+                </div>
             </div>
             <div class="product-info">
                 <div class="product-title">outfit jersey</div>
                 <div class="product-price">350rs</div>
-                <button class="buy-btn" onclick="openCheckout('outfit jersey - 350rs', 'images4.jfif')">Buy Now</button>
+                <button class="buy-btn" onclick="event.stopPropagation(); openCheckout('outfit jersey - 350rs', 'images4.jfif')">Buy Now</button>
             </div>
         </div>
-         <div class="product-card" data-title="argentina 2006 jersey">
+
+        <!-- Card 5 -->
+         <div class="product-card" data-title="argentina 2006 jersey" onclick="toggleTouchInfo(this)">
             <div class="product-image">
+                <div class="info-indicator"><i class="fa-solid fa-circle-info"></i></div>
                 <img src="images5.jfif" alt="2006 Jersey">
+                <div class="product-info-panel">
+                    <h4>Product Details</h4>
+                    <ul>
+                        <li><i class="fa-solid fa-shirt"></i> Replicated Anniversary Knit</li>
+                        <li><i class="fa-solid fa-maximize"></i> Fit: Classic 2000s Loose</li>
+                        <li><i class="fa-solid fa-droplet-slash"></i> Do Not Iron Prints</li>
+                    </ul>
+                </div>
             </div>
             <div class="product-info">
                 <div class="product-title">2006 jersey</div>
                 <div class="product-price">350rs</div>
-                <button class="buy-btn" onclick="openCheckout('2006 jersey - 350rs', 'images5.jfif')">Buy Now</button>
+                <button class="buy-btn" onclick="event.stopPropagation(); openCheckout('2006 jersey - 350rs', 'images5.jfif')">Buy Now</button>
             </div>
         </div>
-         <div class="product-card" data-title="brazil jersey">
+
+        <!-- Card 6 -->
+         <div class="product-card" data-title="brazil jersey" onclick="toggleTouchInfo(this)">
             <div class="product-image">
+                <div class="info-indicator"><i class="fa-solid fa-circle-info"></i></div>
                 <img src="imagesb1.jfif" alt="Brazil Jersey">
+                <div class="product-info-panel">
+                    <h4>Product Details</h4>
+                    <ul>
+                        <li><i class="fa-solid fa-shirt"></i> Ultra-Light Moisture Wick</li>
+                        <li><i class="fa-solid fa-maximize"></i> Fit: Athlete Pro-Fit</li>
+                        <li><i class="fa-solid fa-droplet-slash"></i> Machine Cold Wash</li>
+                    </ul>
+                </div>
             </div>
             <div class="product-info">
                 <div class="product-title">brazil jersey</div>
                 <div class="product-price">350rs</div>
-                <button class="buy-btn" onclick="openCheckout('brazil jersey - 350rs', 'imagesb1.jfif')">Buy Now</button>
+                <button class="buy-btn" onclick="event.stopPropagation(); openCheckout('brazil jersey - 350rs', 'imagesb1.jfif')">Buy Now</button>
             </div>
         </div>
-        <div class="product-card" data-title="brazil jersey alternate alt">
+
+        <!-- Card 7 -->
+        <div class="product-card" data-title="brazil jersey alternate alt" onclick="toggleTouchInfo(this)">
             <div class="product-image">
+                <div class="info-indicator"><i class="fa-solid fa-circle-info"></i></div>
                 <img src="imagesb2.jfif" alt="Brazil Jersey Alternate">
+                <div class="product-info-panel">
+                    <h4>Product Details</h4>
+                    <ul>
+                        <li><i class="fa-solid fa-shirt"></i> Eco-Friendly Recycled Fiber</li>
+                        <li><i class="fa-solid fa-maximize"></i> Fit: Standard Flat-Lock</li>
+                        <li><i class="fa-solid fa-droplet-slash"></i> Air Dry Only</li>
+                    </ul>
+                </div>
             </div>
             <div class="product-info">
                 <div class="product-title">brazil jersey</div>
                 <div class="product-price">350rs</div>
-                <button class="buy-btn" onclick="openCheckout('brazil jersey (Alt) - 350rs', 'imagesb2.jfif')">Buy Now</button>
+                <button class="buy-btn" onclick="event.stopPropagation(); openCheckout('brazil jersey (Alt) - 350rs', 'imagesb2.jfif')">Buy Now</button>
             </div>
         </div>
-        <div class="product-card" data-title="brazil retro jersey">
+
+        <!-- Card 8 -->
+        <div class="product-card" data-title="brazil retro jersey" onclick="toggleTouchInfo(this)">
             <div class="product-image">
+                <div class="info-indicator"><i class="fa-solid fa-circle-info"></i></div>
                 <img src="imagesb3.jfif" alt="Brazil Retro Jersey">
+                <div class="product-info-panel">
+                    <h4>Product Details</h4>
+                    <ul>
+                        <li><i class="fa-solid fa-shirt"></i> Vintage Embroidered Knit</li>
+                        <li><i class="fa-solid fa-maximize"></i> Fit: Retro Box Weave</li>
+                        <li><i class="fa-solid fa-droplet-slash"></i> Dry Clean Suggested</li>
+                    </ul>
+                </div>
             </div>
             <div class="product-info">
                 <div class="product-title">brazil jersey</div>
                 <div class="product-price">350rs</div>
-                <button class="buy-btn" onclick="openCheckout('brazil jersey (Retro) - 350rs', 'imagesb3.jfif')">Buy Now</button>
+                <button class="buy-btn" onclick="event.stopPropagation(); openCheckout('brazil jersey (Retro) - 350rs', 'imagesb3.jfif')">Buy Now</button>
             </div>
         </div>
-        <div class="product-card" data-title="portugal jersey">
+
+        <!-- Card 9 -->
+        <div class="product-card" data-title="portugal jersey" onclick="toggleTouchInfo(this)">
             <div class="product-image">
+                <div class="info-indicator"><i class="fa-solid fa-circle-info"></i></div>
                 <img src="imagesp1.jfif" alt="Portugal Jersey">
+                <div class="product-info-panel">
+                    <h4>Product Details</h4>
+                    <ul>
+                        <li><i class="fa-solid fa-shirt"></i> Vapor-Knit Ventilation</li>
+                        <li><i class="fa-solid fa-maximize"></i> Fit: Tailored Contoured Fit</li>
+                        <li><i class="fa-solid fa-droplet-slash"></i> Turn Inside Out to Wash</li>
+                    </ul>
+                </div>
             </div>
             <div class="product-info">
                 <div class="product-title">portugal jersey</div>
                 <div class="product-price">350rs</div>
-                <button class="buy-btn" onclick="openCheckout('portugal jersey - 350rs', 'imagesp1.jfif')">Buy Now</button>
+                <button class="buy-btn" onclick="event.stopPropagation(); openCheckout('portugal jersey - 350rs', 'imagesp1.jfif')">Buy Now</button>
             </div>
         </div>
-        <div class="product-card" data-title="portugal away jersey">
+
+        <!-- Card 10 -->
+        <div class="product-card" data-title="portugal away jersey" onclick="toggleTouchInfo(this)">
             <div class="product-image">
+                <div class="info-indicator"><i class="fa-solid fa-circle-info"></i></div>
                 <img src="imagesp2.jfif" alt="Portugal Away Jersey">
+                <div class="product-info-panel">
+                    <h4>Product Details</h4>
+                    <ul>
+                        <li><i class="fa-solid fa-shirt"></i> Premium Comfort Mesh Panels</li>
+                        <li><i class="fa-solid fa-maximize"></i> Fit: Regular Unisex Cut</li>
+                        <li><i class="fa-solid fa-droplet-slash"></i> Cold Delicate Cycle</li>
+                    </ul>
+                </div>
             </div>
             <div class="product-info">
                 <div class="product-title">portugal jersey</div>
                 <div class="product-price">350rs</div>
-                <button class="buy-btn" onclick="openCheckout('portugal jersey (Away) - 350rs', 'imagesp2.jfif')">Buy Now</button>
+                <button class="buy-btn" onclick="event.stopPropagation(); openCheckout('portugal jersey (Away) - 350rs', 'imagesp2.jfif')">Buy Now</button>
             </div>
         </div>
-        <div class="product-card" data-title="germany home jersey">
+
+        <!-- Card 11 -->
+        <div class="product-card" data-title="germany home jersey" onclick="toggleTouchInfo(this)">
             <div class="product-image">
+                <div class="info-indicator"><i class="fa-solid fa-circle-info"></i></div>
                 <img src="imagesg1.jfif" alt="Germany Home Jersey">
+                <div class="product-info-panel">
+                    <h4>Product Details</h4>
+                    <ul>
+                        <li><i class="fa-solid fa-shirt"></i> Structured Stadium Fabric</li>
+                        <li><i class="fa-solid fa-maximize"></i> Fit: True-to-Size Relaxed</li>
+                        <li><i class="fa-solid fa-droplet-slash"></i> Avoid Liquid Softeners</li>
+                    </ul>
+                </div>
             </div>
             <div class="product-info">
                 <div class="product-title">germany jersey</div>
                 <div class="product-price">350rs</div>
-                <button class="buy-btn" onclick="openCheckout('germany jersey - 350rs', 'imagesg1.jfif')">Buy Now</button>
+                <button class="buy-btn" onclick="event.stopPropagation(); openCheckout('germany jersey - 350rs', 'imagesg1.jfif')">Buy Now</button>
             </div>
         </div>
-        <div class="product-card" data-title="germany away jersey">
+
+        <!-- Card 12 -->
+        <div class="product-card" data-title="germany away jersey" onclick="toggleTouchInfo(this)">
             <div class="product-image">
+                <div class="info-indicator"><i class="fa-solid fa-circle-info"></i></div>
                 <img src="imagesg2.jfif" alt="Germany Away Jersey">
+                <div class="product-info-panel">
+                    <h4>Product Details</h4>
+                    <ul>
+                        <li><i class="fa-solid fa-shirt"></i> Engineered Breathable Weave</li>
+                        <li><i class="fa-solid fa-maximize"></i> Fit: Dynamic Fit Cut</li>
+                        <li><i class="fa-solid fa-droplet-slash"></i> Hang Dry Recommended</li>
+                    </ul>
+                </div>
             </div>
             <div class="product-info">
                 <div class="product-title">germany jersey</div>
                 <div class="product-price">350rs</div>
-                <button class="buy-btn" onclick="openCheckout('germany jersey (Away) - 350rs', 'imagesg2.jfif')">Buy Now</button>
+                <button class="buy-btn" onclick="event.stopPropagation(); openCheckout('germany jersey (Away) - 350rs', 'imagesg2.jfif')">Buy Now</button>
             </div>
         </div>
     </div>
@@ -319,8 +484,13 @@
     </div>
 </div>
 
+<!-- Sticky WhatsApp Floating Button -->
+<a href="https://wa.me/917306115496" target="_blank" class="whatsapp-float" title="Chat with support">
+    <i class="fa-brands fa-whatsapp"></i>
+</a>
+
 <script>
-    // Live Searching Algorithm Filtering Logic
+    // FIX: Changed search display formatting behavior to 'block' to secure card bounds inside the CSS Grid layout
     function filterJerseys() {
         const searchInput = document.getElementById('jerseySearch').value.toLowerCase();
         const productCards = document.querySelectorAll('.product-grid .product-card');
@@ -329,11 +499,42 @@
             const titleText = card.getAttribute('data-title');
             
             if (titleText.includes(searchInput)) {
-                card.style.display = 'flex'; 
+                card.style.display = 'block'; 
             } else {
                 card.style.display = 'none'; 
             }
         });
+    }
+
+    // FIX: Changed filter category layout rendering option safely to 'block' to fix the zooming effect completely
+    function filterCategory(categoryName, element) {
+        const buttons = document.querySelectorAll('.filter-btn');
+        buttons.forEach(btn => btn.classList.remove('active'));
+        element.classList.add('active');
+
+        const productCards = document.querySelectorAll('.product-grid .product-card');
+        productCards.forEach(card => {
+            const titleText = card.getAttribute('data-title');
+            if (categoryName === 'all' || titleText.includes(categoryName)) {
+                card.style.display = 'block';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+        document.getElementById('jerseySearch').value = '';
+    }
+
+    // Mobile touch handler to toggle the info sheet visibility overlay
+    function toggleTouchInfo(cardElement) {
+        const isActive = cardElement.classList.contains('touch-active');
+        
+        document.querySelectorAll('.product-card').forEach(card => {
+            card.classList.remove('touch-active');
+        });
+
+        if (!isActive) {
+            cardElement.classList.add('touch-active');
+        }
     }
 
     function openCheckout(productDetails, imageSrc) {
