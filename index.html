@@ -3,74 +3,135 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Minimalist Streetwear Co.</title>
+    <title>DRAFTCLOTH.</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
         /* Base Reset & Styling */
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Helvetica Neue', Arial, sans-serif; }
-        body { background-color: #fafafa; color: #111; padding-bottom: 60px; }
+        body { background-color: #0d131a; color: #ffffff; padding-bottom: 60px; }
         
-        /* Header */
-        header { background: white; padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 100; }
-        .logo { font-weight: 900; letter-spacing: 2px; font-size: 1.5rem; text-transform: uppercase; }
+        /* --- FULL-SCREEN VIDEO BACKDROP --- */
+        .video-background-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -2;
+            overflow: hidden;
+        }
+
+        .video-background-container video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Dark overlay layer to let white typography and borders pop */
+        .video-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1; 
+            background: rgba(13, 19, 26, 0.75); 
+        }
+
+        /* Force layer stack priorities securely over background layers */
+        header, .container {
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Header Layout - Semitransparent blur container */
+        header { 
+            background: rgba(255, 255, 255, 0.03); 
+            backdrop-filter: blur(12px); 
+            -webkit-backdrop-filter: blur(12px);
+            padding: 20px 40px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1); 
+            position: sticky; 
+            top: 0; 
+        }
         
-        /* FIX: Styled layout containers for Header Application Badges */
-        .header-socials { display: flex; gap: 20px; align-items: center; }
-        .social-icon { color: #111; font-size: 1.4rem; text-decoration: none; transition: transform 0.2s, color 0.2s; display: inline-block; }
-        .social-icon:hover { transform: translateY(-2px); }
+        /* FIXED: Logo visibility rule forced to bright white */
+        .logo { font-weight: 900; letter-spacing: 2px; font-size: 1.5rem; text-transform: uppercase; color: #ffffff; }
+        
+        /* FIXED: Header Social Media Icons forced to pure white with crisp spacing */
+        .header-socials { display: flex; gap: 25px; align-items: center; }
+        .social-icon { color: #ffffff; font-size: 1.5rem; text-decoration: none; transition: transform 0.2s, color 0.2s; display: inline-block; }
+        .social-icon:hover { transform: translateY(-3px); }
         .social-icon.whatsapp:hover { color: #25D366; }
         .social-icon.instagram:hover { color: #E1306C; }
         .social-icon.email:hover { color: #007AHB; }
 
         /* Main Catalog Container */
         .container { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
-        h1 { text-align: center; margin-bottom: 40px; font-weight: 400; text-transform: uppercase; letter-spacing: 3px; }
+        h1 { text-align: center; margin-bottom: 30px; font-weight: 400; text-transform: uppercase; letter-spacing: 3px; color: #ffffff; text-shadow: 0 2px 8px rgba(0,0,0,0.6); }
         
-        /* Product Grid */
+        /* FIXED HIGHLIGHT: Solid highly visible search bar execution */
+        .search-container { max-width: 500px; margin: 0 auto 40px auto; position: relative; z-index: 20; }
+        .search-bar { width: 100%; padding: 15px 20px 15px 50px; border: 1px solid #ffffff; border-radius: 30px; font-size: 1rem; background-color: #ffffff; color: #111111; transition: all 0.3s ease; font-weight: 500; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); }
+        .search-bar:focus { outline: none; box-shadow: 0 4px 25px rgba(255,255,255,0.25); }
+        .search-bar::placeholder { color: #666666; }
+        .search-icon { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: #111111; font-size: 1.1rem; z-index: 21; }
+
+        /* Product Grid - Transparent Layout with pure white borders */
         .product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
-        .product-card { background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.04); transition: transform 0.2s; display: flex; flex-direction: column; justify-content: space-between; }
-        .product-card:hover { transform: translateY(-4px); }
+        .product-card { background: transparent; border: 1px solid #ffffff; border-radius: 8px; overflow: hidden; transition: transform 0.2s, box-shadow 0.2s; display: flex; flex-direction: column; justify-content: space-between; }
+        .product-card:hover { transform: translateY(-5px); box-shadow: 0 5px 20px rgba(255, 255, 255, 0.15); }
         
-        /* Image adjustments to contain photos beautifully */
-        .product-image { width: 100%; height: 350px; background-color: #e0e0e0; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        /* Inner Container Image placeholders */
+        .product-image { width: 100%; height: 350px; background-color: rgba(255, 255, 255, 0.05); display: flex; align-items: center; justify-content: center; overflow: hidden; border-bottom: 1px solid rgba(255, 255, 255, 0.2); }
         .product-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
         
-        .product-info { padding: 20px; text-align: center; }
-        .product-title { font-size: 1.1rem; margin-bottom: 8px; font-weight: 600; text-transform: capitalize; }
-        .product-price { color: #666; margin-bottom: 15px; font-size: 1rem; }
-        .buy-btn { background: #111; color: white; border: none; padding: 12px 24px; width: 100%; font-size: 0.9rem; font-weight: bold; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: background 0.2s; }
-        .buy-btn:hover { background: #333; }
+        /* FIXED: Clear contrast typography labels */
+        .product-info { padding: 20px; text-align: center; background: rgba(0, 0, 0, 0.2); }
+        .product-title { font-size: 1.1rem; margin-bottom: 8px; font-weight: 600; text-transform: capitalize; color: #ffffff; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+        .product-price { color: #cbd5e1; margin-bottom: 15px; font-size: 1.05rem; font-weight: 500; letter-spacing: 0.5px; }
+        .buy-btn { background: #ffffff; color: #111111; border: none; padding: 12px 24px; width: 100%; font-size: 0.9rem; font-weight: bold; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: background 0.2s; border-radius: 4px; }
+        .buy-btn:hover { background: #e2e8f0; }
 
-        /* Checkout Modal Popup */
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); justify-content: center; align-items: center; z-index: 1000; }
-        .checkout-container { background: white; width: 90%; max-width: 500px; padding: 30px; border-radius: 8px; position: relative; animation: fadeIn 0.3s ease; }
-        .close-btn { position: absolute; top: 15px; right: 20px; font-size: 1.5rem; cursor: pointer; background: none; border: none; }
+        /* Checkout Modal Settings */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); justify-content: center; align-items: center; z-index: 1000; color: #111111; }
+        .checkout-container { background: #ffffff; width: 90%; max-width: 500px; padding: 30px; border-radius: 8px; position: relative; animation: fadeIn 0.3s ease; }
+        .close-btn { position: absolute; top: 15px; right: 20px; font-size: 1.5rem; cursor: pointer; background: none; border: none; color: #111111; }
         
-        /* Form elements */
         .form-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 6px; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; }
-        input[type="text"], input[type="email"], select, textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 1rem; }
+        label { display: block; margin-bottom: 6px; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; color: #111111; }
+        input[type="text"], input[type="email"], select, textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 1rem; color: #111111; background-color: #ffffff; }
         
-        /* Flex layout to display item text alongside a mini image preview */
-        .selected-item-box { background: #f0f0f0; padding: 12px; border-radius: 4px; font-weight: bold; margin-bottom: 20px; display: flex; align-items: center; gap: 15px; }
+        .selected-item-box { background: #f0f0f0; padding: 12px; border-radius: 4px; font-weight: bold; margin-bottom: 20px; display: flex; align-items: center; gap: 15px; color: #111111; }
         .modal-preview-img { width: 50px; height: 50px; border-radius: 4px; overflow: hidden; display: flex; align-items: center; justify-content: center; background: #e0e0e0; flex-shrink: 0; }
         .modal-preview-img img { width: 100%; height: 100%; object-fit: cover; }
         
-        .submit-order-btn { width: 100%; background: #000; color: white; border: none; padding: 14px; font-size: 1rem; font-weight: bold; cursor: pointer; text-transform: uppercase; border-radius: 4px; }
+        .submit-order-btn { width: 100%; background: #000000; color: #ffffff; border: none; padding: 14px; font-size: 1rem; font-weight: bold; cursor: pointer; text-transform: uppercase; border-radius: 4px; }
         
         @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
     </style>
 </head>
 <body>
 
+<!-- HTML5 backdrop file container -->
+<div class="video-background-container">
+    <video autoplay muted loop playsinline>
+        <source src="video1.mp4" type="video/mp4">
+    </video>
+</div>
+<div class="video-overlay"></div>
+
 <header>
-    <div class="logo">ESSENTIALS</div>
+    <div class="logo">DRAFTCLOTH</div>
     
     <div class="header-socials">
         <a href="https://wa.me/917306115496" target="_blank" class="social-icon whatsapp" title="Chat on WhatsApp">
             <i class="fa-brands fa-whatsapp"></i>
         </a>
-        <a href="https://instagram.com/_u/vas.nthx" target="_blank" class="social-icon instagram" title="Follow on Instagram">
+        <a href="https://instagram.com/_u/vas.nthx_" target="_blank" class="social-icon instagram" title="Follow on Instagram">
             <i class="fa-brands fa-instagram"></i>
         </a>
         <a href="mailto:s9443992@gmail.com?subject=Store%20Inquiry" class="social-icon email" title="Send Email">
@@ -81,8 +142,14 @@
 
 <div class="container">
     <h1>New Arrivals</h1>
+    
+    <div class="search-container">
+        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+        <input type="text" id="jerseySearch" class="search-bar" placeholder="Search for country or jersey style... (e.g. Brazil, Retro)" onkeyup="filterJerseys()">
+    </div>
+
     <div class="product-grid">
-        <div class="product-card">
+        <div class="product-card" data-title="argentina world cup 2022 jersey">
             <div class="product-image">
                 <img src="images2.jfif" alt="Argentina World Cup Jersey">
             </div>
@@ -93,7 +160,7 @@
             </div>
         </div>
 
-        <div class="product-card">
+        <div class="product-card" data-title="argentina pre-match jersey">
             <div class="product-image">
                 <img src="images1.jfif" alt="Argentina Pre-Match Jersey">
             </div>
@@ -104,7 +171,7 @@
             </div>
         </div>
 
-        <div class="product-card">
+        <div class="product-card" data-title="argentina retro jersey">
             <div class="product-image">
                 <img src="images3.jfif" alt="Argentina World Cup Jersey Alternate">
             </div>
@@ -114,7 +181,7 @@
                 <button class="buy-btn" onclick="openCheckout('retro jersey - 350rs', 'images3.jfif')">Buy Now</button>
             </div>
         </div>
-        <div class="product-card">
+        <div class="product-card" data-title="argentina outfit jersey">
             <div class="product-image">
                 <img src="images4.jfif" alt="Outfit Jersey">
             </div>
@@ -124,7 +191,7 @@
                 <button class="buy-btn" onclick="openCheckout('outfit jersey - 350rs', 'images4.jfif')">Buy Now</button>
             </div>
         </div>
-         <div class="product-card">
+         <div class="product-card" data-title="argentina 2006 jersey">
             <div class="product-image">
                 <img src="images5.jfif" alt="2006 Jersey">
             </div>
@@ -134,7 +201,7 @@
                 <button class="buy-btn" onclick="openCheckout('2006 jersey - 350rs', 'images5.jfif')">Buy Now</button>
             </div>
         </div>
-         <div class="product-card">
+         <div class="product-card" data-title="brazil jersey">
             <div class="product-image">
                 <img src="imagesb1.jfif" alt="Brazil Jersey">
             </div>
@@ -144,7 +211,7 @@
                 <button class="buy-btn" onclick="openCheckout('brazil jersey - 350rs', 'imagesb1.jfif')">Buy Now</button>
             </div>
         </div>
-        <div class="product-card">
+        <div class="product-card" data-title="brazil jersey alternate alt">
             <div class="product-image">
                 <img src="imagesb2.jfif" alt="Brazil Jersey Alternate">
             </div>
@@ -154,7 +221,7 @@
                 <button class="buy-btn" onclick="openCheckout('brazil jersey (Alt) - 350rs', 'imagesb2.jfif')">Buy Now</button>
             </div>
         </div>
-        <div class="product-card">
+        <div class="product-card" data-title="brazil retro jersey">
             <div class="product-image">
                 <img src="imagesb3.jfif" alt="Brazil Retro Jersey">
             </div>
@@ -164,7 +231,7 @@
                 <button class="buy-btn" onclick="openCheckout('brazil jersey (Retro) - 350rs', 'imagesb3.jfif')">Buy Now</button>
             </div>
         </div>
-        <div class="product-card">
+        <div class="product-card" data-title="portugal jersey">
             <div class="product-image">
                 <img src="imagesp1.jfif" alt="Portugal Jersey">
             </div>
@@ -174,7 +241,7 @@
                 <button class="buy-btn" onclick="openCheckout('portugal jersey - 350rs', 'imagesp1.jfif')">Buy Now</button>
             </div>
         </div>
-        <div class="product-card">
+        <div class="product-card" data-title="portugal away jersey">
             <div class="product-image">
                 <img src="imagesp2.jfif" alt="Portugal Away Jersey">
             </div>
@@ -184,7 +251,7 @@
                 <button class="buy-btn" onclick="openCheckout('portugal jersey (Away) - 350rs', 'imagesp2.jfif')">Buy Now</button>
             </div>
         </div>
-        <div class="product-card">
+        <div class="product-card" data-title="germany home jersey">
             <div class="product-image">
                 <img src="imagesg1.jfif" alt="Germany Home Jersey">
             </div>
@@ -194,7 +261,7 @@
                 <button class="buy-btn" onclick="openCheckout('germany jersey - 350rs', 'imagesg1.jfif')">Buy Now</button>
             </div>
         </div>
-        <div class="product-card">
+        <div class="product-card" data-title="germany away jersey">
             <div class="product-image">
                 <img src="imagesg2.jfif" alt="Germany Away Jersey">
             </div>
@@ -212,7 +279,7 @@
         <button class="close-btn" onclick="closeCheckout()">&times;</button>
         <h2 style="margin-bottom: 20px; text-align: center;">Complete Your Order</h2>
         
-        <form action="https://formspree.io/f/xbdvrpjp" method="POST">
+        <form id="orderForm" action="https://formspree.io/f/xbdvrpjp" method="POST" onsubmit="handleOrderSubmission(event)">
             
             <label>Item Selection</label>
             <input type="hidden" id="hiddenProductField" name="Product Ordered">
@@ -253,6 +320,22 @@
 </div>
 
 <script>
+    // Live Searching Algorithm Filtering Logic
+    function filterJerseys() {
+        const searchInput = document.getElementById('jerseySearch').value.toLowerCase();
+        const productCards = document.querySelectorAll('.product-grid .product-card');
+
+        productCards.forEach(card => {
+            const titleText = card.getAttribute('data-title');
+            
+            if (titleText.includes(searchInput)) {
+                card.style.display = 'flex'; 
+            } else {
+                card.style.display = 'none'; 
+            }
+        });
+    }
+
     function openCheckout(productDetails, imageSrc) {
         document.getElementById('checkoutModal').style.display = 'flex';
         document.getElementById('visibleProductText').innerText = productDetails;
@@ -262,6 +345,30 @@
 
     function closeCheckout() {
         document.getElementById('checkoutModal').style.display = 'none';
+    }
+
+    function handleOrderSubmission(event) {
+        event.preventDefault();
+
+        const productInfo = document.getElementById('visibleProductText').innerText;
+        const selectedSize = document.getElementById('size').value;
+        const clientName = document.getElementById('name').value;
+        const clientEmail = document.getElementById('email').value;
+        const shippingAddress = document.getElementById('address').value;
+
+        const waMessage = `*New Order Received!* 🛍\n\n` +
+                          `*Product:* ${productInfo}\n` +
+                          `*Size:* ${selectedSize}\n\n` +
+                          `--- *Customer Details* ---\n` +
+                          `*Name:* ${clientName}\n` +
+                          `*Email:* ${clientEmail}\n` +
+                          `*Address:* ${shippingAddress}`;
+
+        const waEncodedMessage = encodeURIComponent(waMessage);
+        const waUrl = `https://wa.me/917306115496?text=${waEncodedMessage}`;
+        
+        window.open(waUrl, '_blank');
+        document.getElementById('orderForm').submit();
     }
 
     window.onclick = function(event) {
