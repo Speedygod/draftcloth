@@ -6,62 +6,67 @@
     <title>DRAFTCLOTH.</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
+        /* CSS Color System for Theme Switching */
+        :root {
+            --bg-color: #0d131a;
+            --text-color: #ffffff;
+            --overlay-bg: rgba(13, 19, 26, 0.75);
+            --header-bg: rgba(255, 255, 255, 0.03);
+            --header-border: rgba(255, 255, 255, 0.1);
+            --card-border: #ffffff;
+            --card-info-bg: rgba(0, 0, 0, 0.2);
+            --price-color: #cbd5e1;
+            --inverse-bg: #ffffff;
+            --inverse-text: #111111;
+        }
+
+        .light-theme {
+            --bg-color: #fafafa;
+            --text-color: #111111;
+            --overlay-bg: rgba(250, 250, 250, 0.65);
+            --header-bg: rgba(0, 0, 0, 0.03);
+            --header-border: rgba(0, 0, 0, 0.1);
+            --card-border: #111111;
+            --card-info-bg: rgba(255, 255, 255, 0.2);
+            --price-color: #4b5563;
+            --inverse-bg: #111111;
+            --inverse-text: #ffffff;
+        }
+
         /* Base Reset & Styling */
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Helvetica Neue', Arial, sans-serif; }
-        body { background-color: #0d131a; color: #ffffff; padding-bottom: 60px; overflow-x: hidden; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Helvetica Neue', Arial, sans-serif; transition: background-color 0.3s ease, border-color 0.3s ease; }
+        body { background-color: var(--bg-color); color: var(--text-color); padding-bottom: 60px; overflow-x: hidden; }
         
         /* --- FULL-SCREEN VIDEO BACKDROP --- */
-        .video-background-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: -2;
-            overflow: hidden;
-        }
-
-        .video-background-container video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        /* Dark overlay layer to let white typography and borders pop */
-        .video-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: -1; 
-            background: rgba(13, 19, 26, 0.75); 
-        }
+        .video-background-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -2; overflow: hidden; }
+        .video-background-container video { width: 100%; height: 100%; object-fit: cover; }
+        .video-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; background: var(--overlay-bg); }
 
         /* Force layer stack priorities securely over background layers */
-        header, .container {
-            position: relative;
-            z-index: 10;
-        }
+        header, .container { position: relative; z-index: 10; }
 
-        /* Header Layout - Semitransparent blur container */
+        /* Header Layout */
         header { 
-            background: rgba(255, 255, 255, 0.03); 
+            background: var(--header-bg); 
             backdrop-filter: blur(12px); 
             -webkit-backdrop-filter: blur(12px);
             padding: 20px 40px; 
             display: flex; 
             justify-content: space-between; 
             align-items: center; 
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1); 
+            border-bottom: 1px solid var(--header-border); 
             position: sticky; 
             top: 0; 
         }
         
-        .logo { font-weight: 900; letter-spacing: 2px; font-size: 1.5rem; text-transform: uppercase; color: #ffffff; }
+        .logo { font-weight: 900; letter-spacing: 2px; font-size: 1.5rem; text-transform: uppercase; color: var(--text-color); }
         
-        .header-socials { display: flex; gap: 25px; align-items: center; }
-        .social-icon { color: #ffffff; font-size: 1.5rem; text-decoration: none; transition: transform 0.2s, color 0.2s; display: inline-block; }
+        .header-controls { display: flex; gap: 20px; align-items: center; }
+        .action-icon-btn { background: none; border: none; color: var(--text-color); font-size: 1.4rem; cursor: pointer; position: relative; display: flex; align-items: center; justify-content: center; width: 35px; height: 32px; }
+        .cart-badge { position: absolute; top: -5px; right: -5px; background: #e1306c; color: white; font-size: 0.7rem; font-weight: bold; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+
+        .header-socials { display: flex; gap: 20px; align-items: center; border-left: 1px solid var(--header-border); padding-left: 20px; }
+        .social-icon { color: var(--text-color); font-size: 1.5rem; text-decoration: none; transition: transform 0.2s, color 0.2s; display: inline-block; }
         .social-icon:hover { transform: translateY(-3px); }
         .social-icon.whatsapp:hover { color: #25D366; }
         .social-icon.instagram:hover { color: #E1306C; }
@@ -69,37 +74,29 @@
 
         /* Main Catalog Container */
         .container { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
-        h1 { text-align: center; margin-bottom: 30px; font-weight: 400; text-transform: uppercase; letter-spacing: 3px; color: #ffffff; text-shadow: 0 2px 8px rgba(0,0,0,0.6); }
+        h1 { text-align: center; margin-bottom: 30px; font-weight: 400; text-transform: uppercase; letter-spacing: 3px; color: var(--text-color); text-shadow: 0 2px 8px rgba(0,0,0,0.6); }
         
-        /* Flex Search Layout containing input bar and structural button */
+        /* Flex Search Layout */
         .search-container { max-width: 550px; margin: 0 auto 40px auto; display: flex; gap: 10px; z-index: 20; position: relative; }
-        
-        /* REMOVED SEARCH ICON, adjusted padding-left back to normal 20px */
-        .search-bar { flex: 1; padding: 15px 20px; border: 1px solid #ffffff; border-radius: 30px; font-size: 1rem; background-color: #ffffff; color: #111111; transition: all 0.3s ease; font-weight: 500; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); }
+        .search-bar { flex: 1; padding: 15px 20px; border: 1px solid var(--text-color); border-radius: 30px; font-size: 1rem; background-color: #ffffff; color: #111111; transition: all 0.3s ease; font-weight: 500; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); }
         .search-bar:focus { outline: none; box-shadow: 0 4px 25px rgba(255,255,255,0.25); }
         .search-bar::placeholder { color: #666666; }
-        
-        /* Dedicated Search Execution Button */
-        .search-btn { background: #ffffff; color: #111111; border: none; padding: 0 25px; font-size: 0.9rem; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; border-radius: 30px; cursor: pointer; transition: background 0.2s, transform 0.2s; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); }
-        .search-btn:hover { background: #e2e8f0; transform: translateY(-1px); }
 
         /* Filter Tags Layout */
         .category-filters { display: flex; justify-content: center; gap: 12px; margin-bottom: 35px; flex-wrap: wrap; }
-        .filter-btn { background: transparent; color: #ffffff; border: 1px solid rgba(255, 255, 255, 0.4); padding: 8px 20px; border-radius: 20px; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; cursor: pointer; transition: all 0.2s ease; }
-        .filter-btn.active, .filter-btn:hover { background: #ffffff; color: #111111; border-color: #ffffff; }
+        .filter-btn { background: transparent; color: var(--text-color); border: 1px solid var(--text-color); padding: 8px 20px; border-radius: 20px; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; cursor: pointer; transition: all 0.2s ease; }
+        .filter-btn.active, .filter-btn:hover { background: var(--inverse-bg); color: var(--inverse-text); border-color: var(--inverse-bg); }
 
-        /* Product Grid - Transparent Layout with pure white borders */
+        /* Product Grid */
         .product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
-        
-        /* FIX: Changed card flex parameters back to display block internally to secure grid dimensions */
-        .product-card { display: block; background: transparent; border: 1px solid #ffffff; border-radius: 8px; overflow: hidden; transition: transform 0.2s, box-shadow 0.2s; position: relative; }
+        .product-card { display: block; background: transparent; border: 1px solid var(--card-border); border-radius: 8px; overflow: hidden; transition: transform 0.2s, box-shadow 0.2s; position: relative; }
         .product-card:hover { transform: translateY(-5px); box-shadow: 0 5px 20px rgba(255, 255, 255, 0.15); }
         
-        /* Inner Container Image wrappers with position relative to track info overlays */
+        /* Inner Container Image wrappers */
         .product-image { width: 100%; height: 350px; background-color: rgba(255, 255, 255, 0.05); display: flex; align-items: center; justify-content: center; overflow: hidden; border-bottom: 1px solid rgba(255, 255, 255, 0.2); position: relative; }
         .product-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
         
-        /* Floating Detail Overlay Info Panel & Prompt Icon */
+        /* Floating Detail Overlay Info Panel */
         .info-indicator { position: absolute; top: 15px; right: 15px; background: rgba(0, 0, 0, 0.6); color: #fff; border-radius: 50%; width: 32px; height: 32px; display: flex; justify-content: center; align-items: center; font-size: 1.1rem; border: 1px solid rgba(255,255,255,0.4); pointer-events: none; z-index: 5; transition: transform 0.2s; }
         .product-card:hover .info-indicator { transform: scale(1.1); }
 
@@ -109,28 +106,56 @@
         .product-info-panel ul li { margin-bottom: 4px; color: #cbd5e1; font-size: 0.85rem; }
         .product-info-panel ul li i { margin-right: 6px; color: #fff; }
 
-        /* Activating animation slide configuration on desktop hover or active mobile touch click templates */
         .product-card:hover .product-info-panel, .product-card:active .product-info-panel, .product-card.touch-active .product-info-panel { transform: translateY(0); }
         
         /* Typography labels */
-        .product-info { padding: 24px 20px; text-align: center; background: rgba(0, 0, 0, 0.2); position: relative; z-index: 3; }
-        .product-title { font-size: 1.1rem; margin-bottom: 12px; font-weight: 600; text-transform: capitalize; color: #ffffff; text-shadow: 0 2px 4px rgba(0,0,0,0.5); letter-spacing: 0.3px; }
-        .product-price { color: #cbd5e1; margin-bottom: 20px; font-size: 1.05rem; font-weight: 500; letter-spacing: 0.5px; }
-        .buy-btn { background: #ffffff; color: #111111; border: none; padding: 12px 24px; width: 100%; font-size: 0.9rem; font-weight: bold; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: background 0.2s; border-radius: 4px; }
-        .buy-btn:hover { background: #e2e8f0; }
+        .product-info { padding: 24px 20px; text-align: center; background: var(--card-info-bg); position: relative; z-index: 3; }
+        .product-title { font-size: 1.1rem; margin-bottom: 12px; font-weight: 600; text-transform: capitalize; color: var(--text-color); text-shadow: 0 2px 4px rgba(0,0,0,0.5); letter-spacing: 0.3px; }
+        .product-price { color: var(--price-color); margin-bottom: 20px; font-size: 1.05rem; font-weight: 500; letter-spacing: 0.5px; }
+        .buy-btn { background: var(--inverse-bg); color: var(--inverse-text); border: none; padding: 12px 24px; width: 100%; font-size: 0.9rem; font-weight: bold; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: background 0.2s; border-radius: 4px; }
+        .buy-btn:hover { opacity: 0.85; }
+
+        /* --- SHOPPING CART SIDEBAR DRAWER --- */
+        .cart-sidebar { position: fixed; top: 0; right: -420px; width: 400px; height: 100vh; background: #0d131a; color: #ffffff; box-shadow: -5px 0 25px rgba(0,0,0,0.5); border-left: 1px solid rgba(255,255,255,0.1); z-index: 2000; display: flex; flex-direction: column; transition: right 0.3s cubic-bezier(0.25, 1, 0.5, 1); }
+        .cart-sidebar.open { right: 0; }
+        .cart-header { padding: 25px; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center; }
+        .cart-header h3 { font-weight: 400; text-transform: uppercase; letter-spacing: 1px; }
+        .close-cart-btn { background: none; border: none; color: #ffffff; font-size: 1.8rem; cursor: pointer; }
+        .cart-items-list { flex: 1; overflow-y: auto; padding: 20px; }
+        
+        .cart-item-row { display: flex; align-items: center; gap: 15px; background: rgba(255,255,255,0.03); padding: 12px; border-radius: 6px; margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.05); }
+        .cart-item-img { width: 65px; height: 65px; object-fit: cover; border-radius: 4px; }
+        .cart-item-meta { flex: 1; }
+        .cart-item-meta h5 { font-size: 0.95rem; margin-bottom: 4px; color: #ffffff; }
+        .cart-item-meta p { font-size: 0.85rem; color: #cbd5e1; }
+        .remove-item-btn { background: none; border: none; color: #ff4d4d; cursor: pointer; font-size: 1rem; padding: 5px; }
+
+        .cart-summary-footer { padding: 25px; border-top: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.3); }
+        .total-breakdown-row { display: flex; justify-content: space-between; font-size: 1.1rem; font-weight: bold; margin-bottom: 20px; letter-spacing: 0.5px; }
+        .checkout-trigger-btn { width: 100%; background: #ffffff; color: #0d131a; border: none; padding: 14px; font-size: 1rem; font-weight: bold; cursor: pointer; text-transform: uppercase; border-radius: 4px; letter-spacing: 1px; }
+        .checkout-trigger-btn:hover { background: #e2e8f0; }
 
         /* Checkout Modal Settings */
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); justify-content: center; align-items: center; z-index: 1000; color: #111111; }
-        .checkout-container { background: #ffffff; width: 90%; max-width: 500px; padding: 30px; border-radius: 8px; position: relative; animation: fadeIn 0.3s ease; }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); justify-content: center; align-items: center; z-index: 2500; color: #111111; }
+        .checkout-container { background: #ffffff; width: 90%; max-width: 500px; padding: 30px; border-radius: 8px; position: relative; animation: fadeIn 0.3s ease; max-height: 90vh; overflow-y: auto; }
         .close-btn { position: absolute; top: 15px; right: 20px; font-size: 1.5rem; cursor: pointer; background: none; border: none; color: #111111; }
         
         .form-group { margin-bottom: 15px; }
         label { display: block; margin-bottom: 6px; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; color: #111111; }
         input[type="text"], input[type="email"], select, textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 1rem; color: #111111; background-color: #ffffff; }
         
-        .selected-item-box { background: #f0f0f0; padding: 12px; border-radius: 4px; font-weight: bold; margin-bottom: 20px; display: flex; align-items: center; gap: 15px; color: #111111; }
-        .modal-preview-img { width: 50px; height: 50px; border-radius: 4px; overflow: hidden; display: flex; align-items: center; justify-content: center; background: #e0e0e0; flex-shrink: 0; }
-        .modal-preview-img img { width: 100%; height: 100%; object-fit: cover; }
+        /* Dynamic item stack box */
+        .selected-item-box { background: #f8fafc; padding: 15px; border-radius: 6px; font-weight: bold; margin-bottom: 10px; display: flex; flex-direction: column; gap: 10px; border: 1px solid #e2e8f0; max-height: 150px; overflow-y: auto; }
+        .summary-item-line { display: flex; justify-content: space-between; font-size: 0.9rem; color: #334155; font-weight: 500; border-bottom: 1px dashed #e2e8f0; padding-bottom: 5px; }
+
+        /* Coupon Form Elements */
+        .coupon-wrapper { display: flex; gap: 10px; margin-bottom: 5px; }
+        .coupon-input { flex: 1; padding: 10px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 0.9rem; text-transform: uppercase; }
+        .apply-coupon-btn { background: #111111; color: #ffffff; border: none; padding: 0 15px; font-weight: bold; border-radius: 4px; cursor: pointer; text-transform: uppercase; font-size: 0.8rem; }
+        .coupon-message { font-size: 0.8rem; font-weight: 600; display: block; margin-bottom: 15px; }
+
+        /* Total invoice preview elements */
+        .invoice-total-box { padding: 12px; background: #f1f5f9; border-radius: 6px; margin-bottom: 20px; font-size: 1rem; font-weight: bold; display: flex; justify-content: space-between; color: #0f172a; border: 1px dashed #cbd5e1; }
         
         .submit-order-btn { width: 100%; background: #000000; color: #ffffff; border: none; padding: 14px; font-size: 1rem; font-weight: bold; cursor: pointer; text-transform: uppercase; border-radius: 4px; }
 
@@ -153,18 +178,44 @@
 <header>
     <div class="logo">DRAFTCLOTH</div>
     
-    <div class="header-socials">
-        <a href="https://wa.me/917306115496" target="_blank" class="social-icon whatsapp" title="Chat on WhatsApp">
-            <i class="fa-brands fa-whatsapp"></i>
-        </a>
-        <a href="https://instagram.com/_u/vas.nthx_" target="_blank" class="social-icon instagram" title="Follow on Instagram">
-            <i class="fa-brands fa-instagram"></i>
-        </a>
-        <a href="mailto:s9443992@gmail.com?subject=Store%20Inquiry" class="social-icon email" title="Send Email">
-            <i class="fa-regular fa-envelope"></i>
-        </a>
+    <div class="header-controls">
+        <button class="action-icon-btn" onclick="toggleThemeMode()" title="Toggle Visual Theme">
+            <i class="fa-solid fa-moon" id="themeIcon"></i>
+        </button>
+
+        <button class="action-icon-btn" onclick="toggleCartDrawer()" title="View Shopping Bag">
+            <i class="fa-solid fa-bag-shopping"></i>
+            <span class="cart-badge" id="cartBadgeCount">0</span>
+        </button>
+
+        <div class="header-socials">
+            <a href="https://wa.me/917306115496" target="_blank" class="social-icon whatsapp" title="Chat on WhatsApp">
+                <i class="fa-brands fa-whatsapp"></i>
+            </a>
+            <a href="https://instagram.com/_u/vas.nthx_" target="_blank" class="social-icon instagram" title="Follow on Instagram">
+                <i class="fa-brands fa-instagram"></i>
+            </a>
+            <a href="mailto:s9443992@gmail.com?subject=Store%20Inquiry" class="social-icon email" title="Send Email">
+                <i class="fa-regular fa-envelope"></i>
+            </a>
+        </div>
     </div>
 </header>
+
+<div class="cart-sidebar" id="shoppingCartSidebar">
+    <div class="cart-header">
+        <h3>Shopping Bag</h3>
+        <button class="close-cart-btn" onclick="toggleCartDrawer()">&times;</button>
+    </div>
+    <div class="cart-items-list" id="cartItemsContainer"></div>
+    <div class="cart-summary-footer">
+        <div class="total-breakdown-row">
+            <span>Subtotal:</span>
+            <span id="cartSubtotalValue">0rs</span>
+        </div>
+        <button class="checkout-trigger-btn" onclick="openMultiCheckout()">Proceed to Checkout</button>
+    </div>
+</div>
 
 <div class="container">
     <h1>New Arrivals</h1>
@@ -174,7 +225,6 @@
         <button class="search-btn" onclick="filterJerseys()">Search</button>
     </div>
 
-    <!-- Category Filter Quick Tags -->
     <div class="category-filters">
         <button class="filter-btn active" onclick="filterCategory('all', this)">All</button>
         <button class="filter-btn" onclick="filterCategory('argentina', this)">Argentina</button>
@@ -201,8 +251,8 @@
             </div>
             <div class="product-info">
                 <div class="product-title">Argentina World Cup 2022 Jersey</div>
-                <div class="product-price">450.00</div>
-                <button class="buy-btn" onclick="event.stopPropagation(); openCheckout('Argentina World Cup 2022 Jersey - 450.00', 'images2.jfif')">Buy Now</button>
+                <div class="product-price">650rs</div>
+                <button class="buy-btn" onclick="event.stopPropagation(); addItemToBag('Argentina World Cup 2022 Jersey', 650, 'images2.jfif')">Add to Bag</button>
             </div>
         </div>
 
@@ -223,7 +273,7 @@
             <div class="product-info">
                 <div class="product-title">Argentina Pre-Match Jersey</div>
                 <div class="product-price">320rs</div>
-                <button class="buy-btn" onclick="event.stopPropagation(); openCheckout('Argentina Pre-Match Jersey - 320rs', 'images1.jfif')">Buy Now</button>
+                <button class="buy-btn" onclick="event.stopPropagation(); addItemToBag('Argentina Pre-Match Jersey', 320, 'images1.jfif')">Add to Bag</button>
             </div>
         </div>
 
@@ -244,10 +294,10 @@
             <div class="product-info">
                 <div class="product-title">retro jersey</div>
                 <div class="product-price">350rs</div>
-                <button class="buy-btn" onclick="event.stopPropagation(); openCheckout('retro jersey - 350rs', 'images3.jfif')">Buy Now</button>
+                <button class="buy-btn" onclick="event.stopPropagation(); addItemToBag('Retro Jersey', 350, 'images3.jfif')">Add to Bag</button>
             </div>
         </div>
-
+        
         <!-- Card 4 -->
         <div class="product-card" data-title="argentina outfit jersey" onclick="toggleTouchInfo(this)">
             <div class="product-image">
@@ -265,10 +315,10 @@
             <div class="product-info">
                 <div class="product-title">outfit jersey</div>
                 <div class="product-price">350rs</div>
-                <button class="buy-btn" onclick="event.stopPropagation(); openCheckout('outfit jersey - 350rs', 'images4.jfif')">Buy Now</button>
+                <button class="buy-btn" onclick="event.stopPropagation(); addItemToBag('Outfit Jersey', 350, 'images4.jfif')">Add to Bag</button>
             </div>
         </div>
-
+        
         <!-- Card 5 -->
          <div class="product-card" data-title="argentina 2006 jersey" onclick="toggleTouchInfo(this)">
             <div class="product-image">
@@ -286,10 +336,10 @@
             <div class="product-info">
                 <div class="product-title">2006 jersey</div>
                 <div class="product-price">350rs</div>
-                <button class="buy-btn" onclick="event.stopPropagation(); openCheckout('2006 jersey - 350rs', 'images5.jfif')">Buy Now</button>
+                <button class="buy-btn" onclick="event.stopPropagation(); addItemToBag('Argentina 2006 Jersey', 350, 'images5.jfif')">Add to Bag</button>
             </div>
         </div>
-
+        
         <!-- Card 6 -->
          <div class="product-card" data-title="brazil jersey" onclick="toggleTouchInfo(this)">
             <div class="product-image">
@@ -307,10 +357,10 @@
             <div class="product-info">
                 <div class="product-title">brazil jersey</div>
                 <div class="product-price">350rs</div>
-                <button class="buy-btn" onclick="event.stopPropagation(); openCheckout('brazil jersey - 350rs', 'imagesb1.jfif')">Buy Now</button>
+                <button class="buy-btn" onclick="event.stopPropagation(); addItemToBag('Brazil Jersey', 350, 'imagesb1.jfif')">Add to Bag</button>
             </div>
         </div>
-
+        
         <!-- Card 7 -->
         <div class="product-card" data-title="brazil jersey alternate alt" onclick="toggleTouchInfo(this)">
             <div class="product-image">
@@ -328,10 +378,10 @@
             <div class="product-info">
                 <div class="product-title">brazil jersey</div>
                 <div class="product-price">350rs</div>
-                <button class="buy-btn" onclick="event.stopPropagation(); openCheckout('brazil jersey (Alt) - 350rs', 'imagesb2.jfif')">Buy Now</button>
+                <button class="buy-btn" onclick="event.stopPropagation(); addItemToBag('Brazil Jersey Alternate', 350, 'imagesb2.jfif')">Add to Bag</button>
             </div>
         </div>
-
+        
         <!-- Card 8 -->
         <div class="product-card" data-title="brazil retro jersey" onclick="toggleTouchInfo(this)">
             <div class="product-image">
@@ -349,10 +399,10 @@
             <div class="product-info">
                 <div class="product-title">brazil jersey</div>
                 <div class="product-price">350rs</div>
-                <button class="buy-btn" onclick="event.stopPropagation(); openCheckout('brazil jersey (Retro) - 350rs', 'imagesb3.jfif')">Buy Now</button>
+                <button class="buy-btn" onclick="event.stopPropagation(); addItemToBag('Brazil Retro Jersey', 350, 'imagesb3.jfif')">Add to Bag</button>
             </div>
         </div>
-
+        
         <!-- Card 9 -->
         <div class="product-card" data-title="portugal jersey" onclick="toggleTouchInfo(this)">
             <div class="product-image">
@@ -370,10 +420,10 @@
             <div class="product-info">
                 <div class="product-title">portugal jersey</div>
                 <div class="product-price">350rs</div>
-                <button class="buy-btn" onclick="event.stopPropagation(); openCheckout('portugal jersey - 350rs', 'imagesp1.jfif')">Buy Now</button>
+                <button class="buy-btn" onclick="event.stopPropagation(); addItemToBag('Portugal Jersey', 350, 'imagesp1.jfif')">Add to Bag</button>
             </div>
         </div>
-
+        
         <!-- Card 10 -->
         <div class="product-card" data-title="portugal away jersey" onclick="toggleTouchInfo(this)">
             <div class="product-image">
@@ -391,10 +441,10 @@
             <div class="product-info">
                 <div class="product-title">portugal jersey</div>
                 <div class="product-price">350rs</div>
-                <button class="buy-btn" onclick="event.stopPropagation(); openCheckout('portugal jersey (Away) - 350rs', 'imagesp2.jfif')">Buy Now</button>
+                <button class="buy-btn" onclick="event.stopPropagation(); addItemToBag('Portugal Away Jersey', 350, 'imagesp2.jfif')">Add to Bag</button>
             </div>
         </div>
-
+        
         <!-- Card 11 -->
         <div class="product-card" data-title="germany home jersey" onclick="toggleTouchInfo(this)">
             <div class="product-image">
@@ -412,10 +462,10 @@
             <div class="product-info">
                 <div class="product-title">germany jersey</div>
                 <div class="product-price">350rs</div>
-                <button class="buy-btn" onclick="event.stopPropagation(); openCheckout('germany jersey - 350rs', 'imagesg1.jfif')">Buy Now</button>
+                <button class="buy-btn" onclick="event.stopPropagation(); addItemToBag('Germany Home Jersey', 350, 'imagesg1.jfif')">Add to Bag</button>
             </div>
         </div>
-
+        
         <!-- Card 12 -->
         <div class="product-card" data-title="germany away jersey" onclick="toggleTouchInfo(this)">
             <div class="product-image">
@@ -433,7 +483,7 @@
             <div class="product-info">
                 <div class="product-title">germany jersey</div>
                 <div class="product-price">350rs</div>
-                <button class="buy-btn" onclick="event.stopPropagation(); openCheckout('germany jersey (Away) - 350rs', 'imagesg2.jfif')">Buy Now</button>
+                <button class="buy-btn" onclick="event.stopPropagation(); addItemToBag('Germany Away Jersey', 350, 'imagesg2.jfif')">Add to Bag</button>
             </div>
         </div>
     </div>
@@ -449,9 +499,22 @@
             <label>Item Selection</label>
             <input type="hidden" id="hiddenProductField" name="Product Ordered">
             
-            <div class="selected-item-box">
-                <div class="modal-preview-img" id="visibleProductImg"></div>
-                <div id="visibleProductText">Product Name Here</div>
+            <div class="selected-item-box" id="modalCartSummary"></div>
+
+            <!-- Promo Code System Elements -->
+            <div class="form-group">
+                <label>Promo Code</label>
+                <div class="coupon-wrapper">
+                    <input type="text" id="promoInput" class="coupon-input" placeholder="Enter code (e.g. DRAFTCODE)">
+                    <button type="button" class="apply-coupon-btn" onclick="applyPromoCode()">Apply</button>
+                </div>
+                <span id="promoMessage" class="coupon-message"></span>
+            </div>
+
+            <!-- FIXED: Live Total Indicator element built inside the form layout structure -->
+            <div class="invoice-total-box">
+                <span>Final Payable Price:</span>
+                <span id="modalCheckoutTotalView">0rs</span>
             </div>
 
             <div class="form-group">
@@ -490,14 +553,17 @@
 </a>
 
 <script>
-    // FIX: Changed search display formatting behavior to 'block' to secure card bounds inside the CSS Grid layout
+    // Shopping Cart Global Array State
+    let shoppingCart = [];
+    let currentDiscount = 0;
+    let validPromoApplied = "NONE";
+
     function filterJerseys() {
         const searchInput = document.getElementById('jerseySearch').value.toLowerCase();
         const productCards = document.querySelectorAll('.product-grid .product-card');
 
         productCards.forEach(card => {
             const titleText = card.getAttribute('data-title');
-            
             if (titleText.includes(searchInput)) {
                 card.style.display = 'block'; 
             } else {
@@ -506,7 +572,6 @@
         });
     }
 
-    // FIX: Changed filter category layout rendering option safely to 'block' to fix the zooming effect completely
     function filterCategory(categoryName, element) {
         const buttons = document.querySelectorAll('.filter-btn');
         buttons.forEach(btn => btn.classList.remove('active'));
@@ -524,52 +589,187 @@
         document.getElementById('jerseySearch').value = '';
     }
 
-    // Mobile touch handler to toggle the info sheet visibility overlay
     function toggleTouchInfo(cardElement) {
         const isActive = cardElement.classList.contains('touch-active');
-        
-        document.querySelectorAll('.product-card').forEach(card => {
-            card.classList.remove('touch-active');
-        });
+        document.querySelectorAll('.product-card').forEach(card => card.classList.remove('touch-active'));
+        if (!isActive) cardElement.classList.add('touch-active');
+    }
 
-        if (!isActive) {
-            cardElement.classList.add('touch-active');
+    function toggleThemeMode() {
+        const bodyElement = document.body;
+        const themeIcon = document.getElementById('themeIcon');
+        bodyElement.classList.toggle('light-theme');
+        
+        if (bodyElement.classList.contains('light-theme')) {
+            themeIcon.className = "fa-solid fa-sun";
+        } else {
+            themeIcon.className = "fa-solid fa-moon";
         }
     }
 
-    function openCheckout(productDetails, imageSrc) {
+    function toggleCartDrawer() {
+        document.getElementById('shoppingCartSidebar').classList.toggle('open');
+    }
+
+    function addItemToBag(title, itemPrice, imgSource) {
+        const standardDuplicateItem = shoppingCart.find(item => item.title === title);
+        
+        if (standardDuplicateItem) {
+            standardDuplicateItem.quantity += 1;
+        } else {
+            shoppingCart.push({ title: title, price: itemPrice, image: imgSource, quantity: 1 });
+        }
+        
+        renderCartUi();
+        document.getElementById('shoppingCartSidebar').classList.add('open');
+    }
+
+    function removeCartElement(index) {
+        shoppingCart.splice(index, 1);
+        renderCartUi();
+    }
+
+    function renderCartUi() {
+        const cartContainer = document.getElementById('cartItemsContainer');
+        const badgeCounter = document.getElementById('cartBadgeCount');
+        const priceSubtotal = document.getElementById('cartSubtotalValue');
+        
+        cartContainer.innerHTML = '';
+        let temporaryTotal = 0;
+        let cumulativeItems = 0;
+
+        shoppingCart.forEach((item, index) => {
+            temporaryTotal += (item.price * item.quantity);
+            cumulativeItems += item.quantity;
+
+            cartContainer.innerHTML += `
+                <div class="cart-item-row">
+                    <img src="${item.image}" class="cart-item-img">
+                    <div class="cart-item-meta">
+                        <h5>${item.title}</h5>
+                        <p>${item.price}rs x ${item.quantity}</p>
+                    </div>
+                    <button class="remove-item-btn" onclick="event.stopPropagation(); removeCartElement(${index})"><i class="fa-solid fa-trash"></i></button>
+                </div>
+            `;
+        });
+
+        badgeCounter.innerText = cumulativeItems;
+        priceSubtotal.innerText = temporaryTotal + "rs";
+    }
+
+    // FIXED: Form opens and initializes calculus bounds properly
+    function openMultiCheckout() {
+        if (shoppingCart.length === 0) {
+            alert("Your shopping bag drawer selection is completely empty.");
+            return;
+        }
+
+        currentDiscount = 0;
+        validPromoApplied = "NONE";
+        document.getElementById('promoInput').value = '';
+        document.getElementById('promoMessage').innerText = '';
+
+        const checkoutSummaryDiv = document.getElementById('modalCartSummary');
+        checkoutSummaryDiv.innerHTML = '';
+
+        shoppingCart.forEach(item => {
+            checkoutSummaryDiv.innerHTML += `
+                <div class="summary-item-line">
+                    <span>${item.title} (x${item.quantity})</span>
+                    <span>${item.price * item.quantity}rs</span>
+                </div>
+            `;
+        });
+
+        calculateFinalPayableValue();
         document.getElementById('checkoutModal').style.display = 'flex';
-        document.getElementById('visibleProductText').innerText = productDetails;
-        document.getElementById('hiddenProductField').value = productDetails;
-        document.getElementById('visibleProductImg').innerHTML = '<img src="' + imageSrc + '" alt="Preview">';
     }
 
     function closeCheckout() {
         document.getElementById('checkoutModal').style.display = 'none';
     }
 
+    // NEW HELPER: Instantly computes and shifts layout values on code activation updates
+    function calculateFinalPayableValue() {
+        let basketTotal = 0;
+        shoppingCart.forEach(item => basketTotal += (item.price * item.quantity));
+        const absoluteResultValue = Math.max(0, basketTotal - currentDiscount);
+        document.getElementById('modalCheckoutTotalView').innerText = absoluteResultValue + "rs";
+    }
+
+    /* --- PROMO CODE LOGIC UPGRADED --- */
+    function applyPromoCode() {
+        const appliedString = document.getElementById('promoInput').value.toUpperCase().trim();
+        const outputStatus = document.getElementById('promoMessage');
+        
+        let initialBasketPrice = 0;
+        shoppingCart.forEach(item => initialBasketPrice += (item.price * item.quantity));
+
+        if (appliedString === "DRAFTCODE") {
+            currentDiscount = Math.round(initialBasketPrice * 0.10);
+            validPromoApplied = "DRAFTCODE (10% OFF)";
+            outputStatus.style.color = "#25D366";
+            outputStatus.innerText = `Promo Code Applied! Saved ${currentDiscount}rs.`;
+        }else {
+            currentDiscount = 0;
+            validPromoApplied = "NONE";
+            outputStatus.style.color = "#ff4d4d";
+            outputStatus.innerText = "Invalid or expired coupon tracking token.";
+        }
+        
+        // Dynamic re-render inside input window modal context
+        calculateFinalPayableValue();
+    }
+
     function handleOrderSubmission(event) {
         event.preventDefault();
 
-        const productInfo = document.getElementById('visibleProductText').innerText;
         const selectedSize = document.getElementById('size').value;
         const clientName = document.getElementById('name').value;
         const clientEmail = document.getElementById('email').value;
         const shippingAddress = document.getElementById('address').value;
 
-        const waMessage = `*New Order Received!* 🛍\n\n` +
-                          `*Product:* ${productInfo}\n` +
-                          `*Size:* ${selectedSize}\n\n` +
-                          `--- *Customer Details* ---\n` +
-                          `*Name:* ${clientName}\n` +
-                          `*Email:* ${clientEmail}\n` +
-                          `*Address:* ${shippingAddress}`;
+        let grossTotalAmount = 0;
+        let summaryProductsText = '';
+        
+        shoppingCart.forEach(item => {
+            grossTotalAmount += (item.price * item.quantity);
+            summaryProductsText += `• ${item.title} (Size: ${selectedSize}) x ${item.quantity}\n`;
+        });
 
-        const waEncodedMessage = encodeURIComponent(waMessage);
+        const netPayablePrice = Math.max(0, grossTotalAmount - currentDiscount);
+
+        const customStreetwearInvoiceMessage = 
+            `==============================\n` +
+            `       DRAFTCLOTH. INVOICE     \n` +
+            `==============================\n\n` +
+            `*ITEMS ORDERED:*\n${summaryProductsText}\n` +
+            `------------------------------\n` +
+            `*FINANCIAL BREAKDOWN:*\n` +
+            ` Gross Subtotal: ${grossTotalAmount}rs\n` +
+            ` Coupon Applied: ${validPromoApplied}\n` +
+            ` Discount Value: ${currentDiscount}rs\n` +
+            ` *NET PAYABLE:* ${netPayablePrice}rs\n\n` +
+            `==============================\n` +
+            `     SHIPPING & LOGISTICS     \n` +
+            `==============================\n` +
+            ` *Customer Name:* ${clientName}\n` +
+            ` *Email Address:* ${clientEmail}\n` +
+            ` *Delivery Address:* ${shippingAddress}\n` +
+            `------------------------------`;
+
+        document.getElementById('hiddenProductField').value = customStreetwearInvoiceMessage;
+
+        const waEncodedMessage = encodeURIComponent(customStreetwearInvoiceMessage);
         const waUrl = `https://wa.me/917306115496?text=${waEncodedMessage}`;
         
         window.open(waUrl, '_blank');
         document.getElementById('orderForm').submit();
+
+        shoppingCart = [];
+        renderCartUi();
+        closeCheckout();
     }
 
     window.onclick = function(event) {
